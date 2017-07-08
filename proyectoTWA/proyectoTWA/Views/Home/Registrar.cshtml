@@ -1,0 +1,88 @@
+﻿@model proyectoTWA.Models.Persona
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<h2>Register</h2>
+
+<div class="form-horizontal">
+    <form asp-controller="Home" asp-action="Registrar" method="post">
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-control">
+                <div class="col-md-10">@ViewBag.Message</div>
+            </div>
+        }
+        <div class="form-group">
+            <label asp-for="rut" class="col-md-2 control-label">RUT</label>
+            <div class="col-md-10">
+                <input asp-for="rut" class="form-control" />
+                <span asp-validation-for="rut" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="nombre" class="col-md-2 control-label">Nombre</label>
+            <div class="col-md-10">
+                <input asp-for="nombre" class="form-control" />
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+        </div>   
+        <div class="form-group">
+            <label asp-for="apellidoPaterno" class="col-md-2 control-label"> Apellido Paterno</label>
+            <div class="col-md-10">
+                <input asp-for="apellidoPaterno" class="form-control" />
+                <span asp-validation-for="apellidoPaterno" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="apellidoMaterno" class="col-md-2 control-label">Apellido Materno</label>
+            <div class="col-md-10">
+                <input asp-for="apellidoMaterno" class="form-control" />
+                <span asp-validation-for="apellidoMaterno" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="fechaNacimiento" class="col-md-2 control-label">Fecha de Nacimiento</label>
+            <div class="col-md-10">
+                <input type="date" asp-for="fechaNacimiento" class="form-control" />
+                <span asp-validation-for="fechaNacimiento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="email" class="col-md-2 control-label">Correo</label>
+            <div class="col-md-10">
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="administrador" class="col-md-2 control-label">¿Es un administrador?</label>
+            <div class="col-md-10">
+                <select asp-for="administrador" class="form-control">
+                    <option value="no">No</option>
+                    <option value="si">Si</option>
+                </select>
+                <span asp-validation-for="administrador" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="password" class="col-md-2 control-label">Contraseña</label>
+            <div class="col-md-10">
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="confirmarPassword" class="col-md-2 control-label">Confirmar Contraseña</label>
+            <div class="col-md-10">
+                <input asp-for="confirmarPassword" class="form-control" />
+                <span asp-validation-for="confirmarPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-default">Registrar</button>
+            </div>
+        </div>
+    </form>
+</div>
