@@ -1,0 +1,29 @@
+﻿@model proyectoTWA.Models.Persona
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form class="form-horizontal" asp-controller="Home" asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="rut" class="col-md-2 control-label">RUT</label>
+        <div class="col-md-10">
+            <input asp-for="rut" class="form-control" />
+            <span asp-validation-for="rut" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="password" class="col-md-2 control-label">Contraseña</label>
+        <div class="col-md-10">
+            <input asp-for="password" class="form-control" />
+            <span asp-validation-for="password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Ingresar</button>
+        </div>
+    </div>
+</form>

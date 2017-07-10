@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using proyectoTWA.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Net.Http.Headers;
+using System.IO;
 
 namespace proyectoTWA.Controllers
 {
@@ -56,5 +60,31 @@ namespace proyectoTWA.Controllers
             }
             return View();
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(Persona persona)
+        {
+            var cuenta = _baseDatos.persona.Where(u => u.rut == persona.rut && u.password == persona.password).FirstOrDefault();
+            if (cuenta != null)
+            {
+                HttpContext.Session.SetString("UserID", cuenta.rut.ToString());
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "rut o contraseña incorrecta");
+            }
+            return View();
+        }
+
+        public ActionResult Salir()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
+       
     }
 }

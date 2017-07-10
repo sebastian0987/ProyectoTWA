@@ -54,6 +54,7 @@ namespace proyectoTWA
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
