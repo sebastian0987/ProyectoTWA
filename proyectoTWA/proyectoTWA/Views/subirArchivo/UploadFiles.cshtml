@@ -1,14 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model proyectoTWA.Models.Archivo
 @{
     ViewData["Title"] = "Subir Archivo";
 }
 
-<form asp-action="UploadFiles"
-      asp-controller="subirArchivo"
-      method="post"
-      enctype="multipart/form-data">
-    <input type="file" name="files" multiple />
-    <input type="submit" value="Upload Selected Files" />
-</form>
+<h2>Subir Archivo</h2>
+
+<div class="form-horizontal">
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-control">
+            <div class="col-md-10">@ViewBag.Message</div>
+        </div>
+    }
+    <form asp-action="UploadFiles" asp-controller="subirArchivo" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="nombreArchivo" class="col-md-2 control-label">Nombre</label>
+            <div class="col-md-10">
+                <input asp-for="nombreArchivo" class="form-control" />
+                <span asp-validation-for="nombreArchivo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="estado" class="col-md-2 control-label">Estado</label>
+            <div class="col-md-10">
+                <select asp-for="estado" class="form-control">
+                    <option value="privado">Privado</option>
+                    <option value="publico">Publico</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="file" name="files" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Subir" />
+        </div>
+    </form>
+</div>

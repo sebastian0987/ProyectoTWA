@@ -40,16 +40,17 @@ namespace proyectoTWA.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult UploadFiles(IList<IFormFile> files)
+        public IActionResult UploadFiles(IList<IFormFile> files, Archivo archivo)
         {
            
             long size = 0;
             foreach (var file in files)
             {
-                Archivo archivo = new Archivo();
+                
+                //Archivo archivo = new Archivo();
                 //DateTime fecha = new DateTime();
                 //var h = fecha.Year.ToString() + fecha.Second.ToString();
-                var nombreArchivo = DateTime.Now.ToString("MMddyyyyHmmssfff");
+                var nombreProyecto = DateTime.Now.ToString("MMddyyyyHmmssfff");
                 //Se obtiene el nombre del archivo mas su extension
                 var filename = ContentDispositionHeaderValue
                                 .Parse(file.ContentDisposition)
@@ -57,14 +58,24 @@ namespace proyectoTWA.Controllers
                                 .Trim('"');
                 //Se obtiene la extension del archivo
                 string [] extension = filename.Split('.');
-                //Se agregar la extension al nuevo nombre del archivo
-                nombreArchivo = nombreArchivo + "." + extension.Last();
+        
                 //Se guarda en la clase Archivo
-                archivo.nombre = nombreArchivo;
+                archivo.nombreArchivo = archivo.nombreArchivo+"." + extension.Last();
+
                 //Se agrega el nombre del archivo a la ruta 'C:\Users\tatan\Source\Repos\ProyectoTWA\proyectoTWA\proyectoTWA\wwwroot'
-                filename = hostingEnv.WebRootPath + $@"\{nombreArchivo}";
+                filename = hostingEnv.WebRootPath + $@"\{archivo.nombreArchivo}";
                 archivo.ubicacion = hostingEnv.WebRootPath;
+                archivo.nombreProyecto = nombreProyecto;
                 size += file.Length;
+
+                //Verificar que no existan dos archivos con el mismo nombre dentro de un proyecto
+                var cuenta = _baseDatos.archivo.Where(u => u.nombreArchivo == archivo.nombreArchivo && u.nombreProyecto == archivo.nombreProyecto).FirstOrDefault();
+                if (cuenta != null)
+                {
+                    ViewBag.Message = "Ya existe un archivo dentro del proyecto con el mismo nombre";
+                    return View();
+                }
+
                 using (FileStream fs = System.IO.File.Create(filename))
                 {
                     file.CopyTo(fs);
@@ -75,7 +86,7 @@ namespace proyectoTWA.Controllers
 
             }
             
-            ViewBag.Message = "Error";
+            ViewBag.Message = "El archivo "+archivo.nombreArchivo+" se ha subido exitosamente";
             return View();
         }
     }

@@ -9,7 +9,10 @@ namespace proyectoTWA.Models
     public class Archivo
     {
         [Key]
-        public string nombre { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un Nombre para continuar")]
+        public string nombreArchivo { get; set; }
         public string ubicacion { get; set; }
+        public string estado { get; set; }
+        public string nombreProyecto { get; set; }
     }
 }

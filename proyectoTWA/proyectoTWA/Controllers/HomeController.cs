@@ -51,6 +51,12 @@ namespace proyectoTWA.Controllers
         {
             if (ModelState.IsValid)
             {
+                var cuenta = _baseDatos.persona.Where(u => u.rut == persona.rut).FirstOrDefault();
+                if (cuenta != null)
+                {
+                    ViewBag.Message = "El RUT ingresado ya existe en el sistema";
+                    return View();
+                }
                 _baseDatos.persona.Add(persona);
                 _baseDatos.SaveChanges();
 

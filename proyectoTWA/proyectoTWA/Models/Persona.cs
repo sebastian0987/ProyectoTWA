@@ -28,6 +28,7 @@ namespace proyectoTWA.Models
         public string password { get; set; }
         [Compare("password",ErrorMessage = "La contraseña ingresada no coincide")]
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        [DataType(DataType.Password)]
         public string confirmarPassword { get; set; }
     }
 }
