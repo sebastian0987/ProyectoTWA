@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Net.Http.Headers;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace proyectoTWA.Controllers
 {
@@ -51,21 +53,36 @@ namespace proyectoTWA.Controllers
         {
             if (ModelState.IsValid)
             {
-                var cuenta = _baseDatos.persona.Where(u => u.rut == persona.rut).FirstOrDefault();
+                var cuenta = _baseDatos.persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
                 if (cuenta != null)
                 {
                     ViewBag.Message = "El RUT ingresado ya existe en el sistema";
                     return View();
                 }
+                persona.Password = GetHash(persona.Password);
                 _baseDatos.persona.Add(persona);
                 _baseDatos.SaveChanges();
 
                 ModelState.Clear();
-                ViewBag.Message = persona.nombre + " " + persona.apellidoPaterno + " " + persona.apellidoMaterno + " se ha ingresado correctamente";
+                ViewBag.Message = persona.Nombre + " " + persona.ApellidoPaterno + " " + persona.ApellidoMaterno + " se ha ingresado correctamente";
 
             }
             return View();
         }
+
+        private static string GetHash(string text)
+        {
+            text = "08rkeo87s0" + text;
+            // SHA512 is disposable by inheritance.  
+            using (var sha256 = SHA256.Create())
+            {
+                // Send a sample text to hash.  
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+                // Get the hashed string.  
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
         public ActionResult Login()
         {
             return View();
@@ -73,15 +90,22 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Login(Persona persona)
         {
-            var cuenta = _baseDatos.persona.Where(u => u.rut == persona.rut && u.password == persona.password).FirstOrDefault();
-            if (cuenta != null)
+            var cuenta = _baseDatos.persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
+            if (cuenta == null)
             {
-                HttpContext.Session.SetString("UserID", cuenta.rut.ToString());
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", "Rut o contraseña incorrecta");
             }
             else
             {
-                ModelState.AddModelError("", "rut o contraseña incorrecta");
+                if (cuenta.Password == GetHash(persona.Password))
+                {
+                    HttpContext.Session.SetString("UserID", cuenta.Rut.ToString());
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Rut o contraseña incorrecta");
+                }
             }
             return View();
         }

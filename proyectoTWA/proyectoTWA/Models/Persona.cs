@@ -10,25 +10,25 @@ namespace proyectoTWA.Models
     {
         [Key]
         [Required(ErrorMessage = "Debe ingresar un RUT para continuar")]
-        public string rut { get; set; }
+        public string Rut { get; set; }
         [Required(ErrorMessage = "Debe ingresar un Nombre para continuar")]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
         [Required(ErrorMessage = "Debe ingresar un apellido paterno para continuar")]
-        public string apellidoPaterno { get; set; }
+        public string ApellidoPaterno { get; set; }
         [Required(ErrorMessage = "Debe ingresar un apellido materno para continuar")]
-        public string apellidoMaterno { get; set; }
+        public string ApellidoMaterno { get; set; }
         [Required(ErrorMessage = "Debe ingresar una fecha de nacimiento para continuar")]
-        public string fechaNacimiento { get; set; }
+        public string FechaNacimiento { get; set; }
         [Required(ErrorMessage = "Debe ingresar un correo para continuar")]
-        public string email { get; set; }
+        public string Email { get; set; }
         [Required(ErrorMessage = "Debe indicar si es un administrador")]
-        public string administrador { get; set; }
+        public string Administrador { get; set; }
         [Required(ErrorMessage = "Debe ingresar una contraseña para continuar")]
         [DataType(DataType.Password)]
-        public string password { get; set; }
-        [Compare("password",ErrorMessage = "La contraseña ingresada no coincide")]
+        public string Password { get; set; }
+        [Compare("Password",ErrorMessage = "La contraseña ingresada no coincide")]
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         [DataType(DataType.Password)]
-        public string confirmarPassword { get; set; }
+        public string ConfirmarPassword { get; set; }
     }
 }

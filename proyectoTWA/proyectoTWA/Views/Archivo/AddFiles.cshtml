@@ -12,18 +12,18 @@
             <div class="col-md-10">@ViewBag.Message</div>
         </div>
     }
-    <form asp-action="UploadFiles" asp-controller="subirArchivo" method="post" enctype="multipart/form-data">
+    <form asp-action="AddFiles" asp-controller="Archivo" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label asp-for="nombreArchivo" class="col-md-2 control-label">Nombre</label>
+            <label asp-for="NombreArchivo" class="col-md-2 control-label">Nombre</label>
             <div class="col-md-10">
-                <input asp-for="nombreArchivo" class="form-control" />
-                <span asp-validation-for="nombreArchivo" class="text-danger"></span>
+                <input asp-for="NombreArchivo" class="form-control" />
+                <span asp-validation-for="NombreArchivo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="estado" class="col-md-2 control-label">Estado</label>
+            <label asp-for="Estado" class="col-md-2 control-label">Estado</label>
             <div class="col-md-10">
-                <select asp-for="estado" class="form-control">
+                <select asp-for="Estado" class="form-control">
                     <option value="privado">Privado</option>
                     <option value="publico">Publico</option>
                 </select>

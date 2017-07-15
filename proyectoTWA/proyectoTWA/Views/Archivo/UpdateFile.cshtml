@@ -1,0 +1,37 @@
+﻿@model proyectoTWA.Models.Archivo
+@{
+    ViewData["Title"] = "Modificar Archivo";
+}
+
+<h2>Modificar Archivo</h2>
+
+<div class="form-horizontal">
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-control">
+            <div class="col-md-10">@ViewBag.Message</div>
+        </div>
+    }
+    <form asp-action="UpdateFile" asp-controller="Archivo" method="post">
+        <div class="form-group">
+            <label asp-for="NombreArchivo" class="col-md-2 control-label">Nombre</label>
+            <div class="col-md-10">
+                <input asp-for="NombreArchivo" class="form-control" disabled/>
+                <span asp-validation-for="NombreArchivo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Estado" class="col-md-2 control-label">Estado</label>
+            <div class="col-md-10">
+                <select asp-for="Estado" class="form-control">
+                    <option value="privado">Privado</option>
+                    <option value="publico">Publico</option>
+                    <option value="publico">Eliminar</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Modificar" />
+        </div>
+    </form>
+</div>

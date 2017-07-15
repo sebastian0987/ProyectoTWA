@@ -13,7 +13,7 @@ using proyectoTWA.Models;
 
 namespace proyectoTWA.Controllers
 {
-    public class subirArchivoController : Controller
+    public class ArchivoController : Controller
     {
         private IHostingEnvironment hostingEnv;
         private BaseDatos _baseDatos;
@@ -29,18 +29,18 @@ namespace proyectoTWA.Controllers
         //{
         //    return View();
         //}
-        public subirArchivoController(IHostingEnvironment env, BaseDatos baseDatos)
+        public ArchivoController(IHostingEnvironment env, BaseDatos baseDatos)
         {
             this.hostingEnv = env;
             _baseDatos = baseDatos;
         }
 
-        public IActionResult UploadFiles()
+        public IActionResult AddFiles()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult UploadFiles(IList<IFormFile> files, Archivo archivo)
+        public IActionResult AddFiles(IList<IFormFile> files, Archivo archivo)
         {
            
             long size = 0;
@@ -60,16 +60,16 @@ namespace proyectoTWA.Controllers
                 string [] extension = filename.Split('.');
         
                 //Se guarda en la clase Archivo
-                archivo.nombreArchivo = archivo.nombreArchivo+"." + extension.Last();
+                archivo.NombreArchivo = archivo.NombreArchivo+"." + extension.Last();
 
                 //Se agrega el nombre del archivo a la ruta 'C:\Users\tatan\Source\Repos\ProyectoTWA\proyectoTWA\proyectoTWA\wwwroot'
-                filename = hostingEnv.WebRootPath + $@"\{archivo.nombreArchivo}";
-                archivo.ubicacion = hostingEnv.WebRootPath;
-                archivo.nombreProyecto = nombreProyecto;
+                filename = hostingEnv.WebRootPath + $@"\{archivo.NombreArchivo}";
+                archivo.Ubicacion = hostingEnv.WebRootPath;
+                archivo.NombreProyecto = nombreProyecto;
                 size += file.Length;
 
                 //Verificar que no existan dos archivos con el mismo nombre dentro de un proyecto
-                var cuenta = _baseDatos.archivo.Where(u => u.nombreArchivo == archivo.nombreArchivo && u.nombreProyecto == archivo.nombreProyecto).FirstOrDefault();
+                var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo && u.NombreProyecto == archivo.NombreProyecto).FirstOrDefault();
                 if (cuenta != null)
                 {
                     ViewBag.Message = "Ya existe un archivo dentro del proyecto con el mismo nombre";
@@ -81,12 +81,34 @@ namespace proyectoTWA.Controllers
                     file.CopyTo(fs);
                     fs.Flush();
                 }
+                archivo.Rut = HttpContext.Session.GetString("UserID");
+                RegistrarArchivo(archivo.NombreArchivo,archivo.NombreProyecto);
                 _baseDatos.archivo.Add(archivo);
                 _baseDatos.SaveChanges();
 
             }
             
-            ViewBag.Message = "El archivo "+archivo.nombreArchivo+" se ha subido exitosamente";
+            ViewBag.Message = "El archivo "+archivo.NombreArchivo+" se ha subido exitosamente";
+            return View();
+        }
+        private void RegistrarArchivo(string nombreArchivo,string nombreProyecto)
+        {
+            Registro registro = new Registro();
+            registro.Rut = HttpContext.Session.GetString("UserID");
+            registro.NombreArchivo = nombreArchivo;
+            registro.NombreProyecto = nombreProyecto;
+            registro.TipoModificacion = "agregar";
+            _baseDatos.registro.Add(registro);
+            _baseDatos.SaveChanges();
+        }
+
+        public IActionResult UpdateFile()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UpdateFile(Archivo archivo)
+        {
             return View();
         }
     }

@@ -14,5 +14,6 @@ namespace proyectoTWA.Models
         }
         public DbSet<Persona> persona { get; set; }
         public DbSet<Archivo> archivo { get; set; }
+        public DbSet<Registro> registro { get; set; }
     }
 }

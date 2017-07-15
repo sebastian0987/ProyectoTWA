@@ -36,7 +36,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="subirArchivo" asp-action="UploadFiles">Subir Archivo</a></li>
+                    <li><a asp-area="" asp-controller="Archivo" asp-action="AddFiles">Subir Archivo</a></li>
+                    <li><a asp-area="" asp-controller="Archivo" asp-action="UpdateFile">Modificar Archivo</a></li>
                     @if (Context.Session.GetString("UserID") != null)
                     {
                         <li><a asp-area="" asp-controller="Home" asp-action="Salir">Salir</a></li>
