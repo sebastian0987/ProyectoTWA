@@ -22,7 +22,18 @@ namespace proyectoTWA.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(_baseDatos.archivo.ToList());
+        }
+
+        public IActionResult Archivo(string nombre)
+        {
+            var model = _baseDatos.archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
+            if (model == null)
+            {
+                ViewBag.Message = "Hubo un error al intentar acceder al archivo";
+                return RedirectToAction("Index");
+            }
+           return RedirectToAction("UpdateFile", "Archivo", new { nombre = nombre });
         }
 
         public IActionResult About()

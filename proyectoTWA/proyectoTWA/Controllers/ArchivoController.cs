@@ -24,11 +24,6 @@ namespace proyectoTWA.Controllers
             return date.ToString();
         }
 
-        // GET: /<controller>/
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         public ArchivoController(IHostingEnvironment env, BaseDatos baseDatos)
         {
             this.hostingEnv = env;
@@ -102,14 +97,43 @@ namespace proyectoTWA.Controllers
             _baseDatos.SaveChanges();
         }
 
-        public IActionResult UpdateFile()
+        public IActionResult UpdateFile(string nombre)
         {
-            return View();
+            var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
+            if (cuenta == null)
+            {
+                ViewBag.Message = "Hubo un error al intentar acceder al archivo";
+                return RedirectToAction("Index", "Home");
+            }
+            return View(cuenta);
         }
         [HttpPost]
         public IActionResult UpdateFile(Archivo archivo)
         {
-            return View();
+            var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo).First();
+            if (cuenta == null)
+            {
+                ViewBag.Message = "Error";
+                return View(archivo);
+            }
+            else
+            {
+                if(archivo.Estado != null)
+                {
+                    //Para modificar
+                    cuenta.Estado = archivo.Estado;
+                    //_baseDatos.Update(cuenta);
+                    _baseDatos.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
+
+                //Para borrar
+                //_baseDatos.Remove(cuenta);
+                //_baseDatos.SaveChanges();
+            }
+
+            
         }
     }
 }

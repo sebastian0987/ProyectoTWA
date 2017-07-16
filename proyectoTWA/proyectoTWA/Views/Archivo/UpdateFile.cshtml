@@ -16,17 +16,18 @@
         <div class="form-group">
             <label asp-for="NombreArchivo" class="col-md-2 control-label">Nombre</label>
             <div class="col-md-10">
-                <input asp-for="NombreArchivo" class="form-control" disabled/>
+                <input asp-for="NombreArchivo" class="form-control" value=@Model.NombreArchivo readonly/>
                 <span asp-validation-for="NombreArchivo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Estado" class="col-md-2 control-label">Estado</label>
             <div class="col-md-10">
-                <select asp-for="Estado" class="form-control">
+                <select asp-for="Estado" class="form-control">          
                     <option value="privado">Privado</option>
                     <option value="publico">Publico</option>
-                    <option value="publico">Eliminar</option>
+                    <option value="eliminar">Eliminar</option>
+                    <option selected disabled value=@Model.Estado>@Model.Estado</option>
                 </select>
             </div>
         </div>
