@@ -22,12 +22,12 @@ namespace proyectoTWA.Controllers
         }
         public IActionResult Index()
         {
-            return View(_baseDatos.archivo.ToList());
+            return View(_baseDatos.Archivo.ToList());
         }
 
         public IActionResult Archivo(string nombre)
         {
-            var model = _baseDatos.archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
+            var model = _baseDatos.Archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
             if (model == null)
             {
                 ViewBag.Message = "Hubo un error al intentar acceder al archivo";
@@ -64,14 +64,14 @@ namespace proyectoTWA.Controllers
         {
             if (ModelState.IsValid)
             {
-                var cuenta = _baseDatos.persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
+                var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
                 if (cuenta != null)
                 {
                     ViewBag.Message = "El RUT ingresado ya existe en el sistema";
                     return View();
                 }
                 persona.Password = GetHash(persona.Password);
-                _baseDatos.persona.Add(persona);
+                _baseDatos.Persona.Add(persona);
                 _baseDatos.SaveChanges();
 
                 ModelState.Clear();
@@ -101,7 +101,7 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Login(Persona persona)
         {
-            var cuenta = _baseDatos.persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
+            var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
             if (cuenta == null)
             {
                 ModelState.AddModelError("", "Rut o contraseña incorrecta");
