@@ -13,28 +13,28 @@ using System.Text;
 
 namespace proyectoTWA.Controllers
 {
-    public class HomeController : Controller
+    public class ProyectoController : Controller
     {
         private BaseDatos _baseDatos;
-        public HomeController(BaseDatos baseDatos)
+        public ProyectoController(BaseDatos baseDatos)
         {
             _baseDatos = baseDatos;
         }
         public IActionResult Index()
         {
-            return View(_baseDatos.Archivo.ToList());
+            return View(_baseDatos.Proyecto.ToList());
         }
 
-        public IActionResult Archivo(string nombre)
+        public ActionResult NuevoProyecto()
         {
-            var model = _baseDatos.Archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
-            if (model == null)
-            {
-                ViewBag.Message = "Hubo un error al intentar acceder al archivo";
-                return RedirectToAction("Index");
-            }
-           return RedirectToAction("UpdateFile", "Archivo", new { nombre = nombre });
+            return View();
         }
+
+        //public IActionResult Proyecto()
+        //{
+        //    return RedirectToAction("Feed", "Proyecto", new { nombre = nombre });
+        //    //return RedirectToAction("UpdateFile", "Proyecto", new { nombre = nombre });
+        //}
 
         public IActionResult About()
         {
@@ -93,7 +93,10 @@ namespace proyectoTWA.Controllers
                 return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
         }
-
+        public IActionResult Feed()
+        {
+            return View(_baseDatos.Proyecto.ToList());
+        }
         public ActionResult Login()
         {
             return View();
@@ -126,7 +129,6 @@ namespace proyectoTWA.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
-
-
+       
     }
 }

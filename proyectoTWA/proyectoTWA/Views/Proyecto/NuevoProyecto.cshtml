@@ -1,0 +1,51 @@
+﻿@model proyectoTWA.Models.Proyecto
+@{
+    ViewData["Title"] = "Nuevo Proyecto";
+}
+
+<h2>Nuevo Proyecto</h2>
+
+<div class="form-horizontal">
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-control">
+            <div class="col-md-10">@ViewBag.Message</div>
+        </div>
+    }
+    <form asp-action="NuevoProyecto" asp-controller="Proyecto" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="NombreProyecto" class="col-md-2 control-label">Nombre</label>
+            <div class="col-md-10">
+                <input asp-for="NombreProyecto" class="form-control" />
+                <span asp-validation-for="NombreProyecto" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="col-sm-6" style="height:130px;">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker11'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar">
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker11').datetimepicker({
+                daysOfWeekDisabled: [0, 6]
+            });
+        });
+            </script>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Subir" />
+        </div>
+    </form>
+</div>
