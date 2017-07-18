@@ -64,7 +64,7 @@ namespace proyectoTWA.Controllers
                 size += file.Length;
 
                 //Verificar que no existan dos archivos con el mismo nombre dentro de un proyecto
-                var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo && u.NombreProyecto == archivo.NombreProyecto).FirstOrDefault();
+                var cuenta = _baseDatos.Archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo && u.NombreProyecto == archivo.NombreProyecto).FirstOrDefault();
                 if (cuenta != null)
                 {
                     ViewBag.Message = "Ya existe un archivo dentro del proyecto con el mismo nombre";
@@ -78,7 +78,7 @@ namespace proyectoTWA.Controllers
                 }
                 archivo.Rut = HttpContext.Session.GetString("UserID");
                 RegistrarArchivo(archivo.NombreArchivo,archivo.NombreProyecto);
-                _baseDatos.archivo.Add(archivo);
+                _baseDatos.Archivo.Add(archivo);
                 _baseDatos.SaveChanges();
 
             }
@@ -93,13 +93,13 @@ namespace proyectoTWA.Controllers
             registro.NombreArchivo = nombreArchivo;
             registro.NombreProyecto = nombreProyecto;
             registro.TipoModificacion = "agregar";
-            _baseDatos.registro.Add(registro);
+            _baseDatos.Registro.Add(registro);
             _baseDatos.SaveChanges();
         }
 
         public IActionResult UpdateFile(string nombre)
         {
-            var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
+            var cuenta = _baseDatos.Archivo.Where(u => u.NombreArchivo == nombre).FirstOrDefault();
             if (cuenta == null)
             {
                 ViewBag.Message = "Hubo un error al intentar acceder al archivo";
@@ -110,7 +110,7 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public IActionResult UpdateFile(Archivo archivo)
         {
-            var cuenta = _baseDatos.archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo).First();
+            var cuenta = _baseDatos.Archivo.Where(u => u.NombreArchivo == archivo.NombreArchivo).First();
             if (cuenta == null)
             {
                 ViewBag.Message = "Error";
