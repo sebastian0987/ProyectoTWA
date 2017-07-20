@@ -1,6 +1,6 @@
-﻿@model IEnumerable<proyectoTWA.Models.Archivo>
+﻿@model IEnumerable<proyectoTWA.Models.Proyecto>
 @{
-    ViewData["Title"] = "Dashboard/Feed";
+    ViewData["Title"] = "Feed/Dashboard";
 }
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
@@ -67,8 +67,8 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <h2>Lista de Archivos</h2>
+    <div class="col-md-6">
+        <h2>Lista de Proyectos</h2>
         @if (ViewBag.Message != null)
         {
             <div class="form-control">
@@ -80,14 +80,16 @@
             <table class="table">
                 <tr>
                     <th>Nombre</th>
-                    <th>Estado</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de término</th>
                 </tr>
-                @foreach (var archivo in Model)
+                @foreach (var proyecto in Model)
                 {
                     <tr>
-                        <td>@archivo.NombreArchivo</td>
-                        <td>@archivo.Estado</td>
-                        <td>@Html.ActionLink("Modificar", "Archivo", new { nombre = archivo.NombreArchivo })</td>
+                        <td>@proyecto.NombreProyecto</td>
+                        <td>@proyecto.FechaInicio</td>
+                        <td>@proyecto.FechaTermino</td>
+                        @*<td>@Html.ActionLink("Modificar", "Proyecto", new { nombre = proyecto.NombreProyecto })</td>*@
                     </tr>
 
                 }
@@ -96,8 +98,7 @@
         }
         else
         {
-            <p>No existe ningun archivo en este proyecto</p>
-
+            <p>No existen proyectos</p>
         }
     </div>
 </div>
