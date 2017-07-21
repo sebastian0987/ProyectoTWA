@@ -9,7 +9,7 @@ namespace proyectoTWA.Models
     public class Proyecto
     {
         [Key]
-        [Required(ErrorMessage = "Debe ingresar un Nombre para continuar")]
+        [Required(ErrorMessage = "Debe ingresar un nombre para continuar")]
         public string NombreProyecto { get; set; }
         public string FechaInicio { get; set; }
         public string FechaTermino { get; set; }
