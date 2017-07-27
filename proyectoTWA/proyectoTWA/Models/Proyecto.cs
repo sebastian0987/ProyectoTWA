@@ -16,16 +16,16 @@ namespace proyectoTWA.Models
 		[Required]
         public string FechaTermino { get; set; }
 
-		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-		{
-			DateTime StartDate = DateTime.Parse(FechaInicio);
-			DateTime EndDate = DateTime.Parse(FechaTermino);
-			if (EndDate < StartDate)
-			{
-				yield return
-				  new ValidationResult(errorMessage: "La fecha de término debe ser posterior a la de inicio.",
-									   memberNames: new[] { "EndDate" });
-			}
-		}
+		//public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		//{
+		//	DateTime StartDate = DateTime.Parse(FechaInicio);
+		//	DateTime EndDate = DateTime.Parse(FechaTermino);
+		//	if (EndDate < StartDate)
+		//	{
+		//		yield return
+		//		  new ValidationResult(errorMessage: "La fecha de término debe ser posterior a la de inicio.",
+		//							   memberNames: new[] { "EndDate" });
+		//	}
+		//}
 	} 
 }

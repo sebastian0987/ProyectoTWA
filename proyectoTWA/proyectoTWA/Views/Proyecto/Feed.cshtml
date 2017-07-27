@@ -28,7 +28,7 @@
                 @foreach (var proyecto in Model)
                 {
                     <tr>
-                        <td>@proyecto.NombreProyecto</td>
+                        <td>@Html.ActionLink(@proyecto.NombreProyecto, "ModificarProyecto", proyecto)</td>
                         <td>@proyecto.FechaInicio</td>
                         <td>@proyecto.FechaTermino</td>
 

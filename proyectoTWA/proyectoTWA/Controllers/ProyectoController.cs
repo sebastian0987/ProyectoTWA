@@ -24,7 +24,10 @@ namespace proyectoTWA.Controllers
         {
             return View(_baseDatos.Proyecto.ToList());
         }
-
+        //public ActionResult NuevoProyecto()
+        //{
+        //    return View();
+        //}
         public ActionResult NuevoProyecto(Proyecto proyecto)
         {
 			if (ModelState.IsValid)
@@ -35,7 +38,18 @@ namespace proyectoTWA.Controllers
 					ViewBag.Message = "Ya existe un proyecto con ese nombre";
 					return View();
 				}
-				else { 
+				else {
+                    // Se obtiene la sesion de la persona que ingreso al sistema
+                    // Se carga en la tabla PersonaProyecto la relacion entre que persona
+                    // acaba de registrar el nuevo proyecto, dejandolo como responsable legal
+                    // y como director
+                    var sesion = HttpContext.Session.GetString("UserID");
+                    PersonaProyecto pp = new PersonaProyecto();
+                    pp.NombreProyecto = proyecto.NombreProyecto;
+                    pp.Rut = sesion;
+                    pp.DirectorS_N = "s";
+                    pp.ResponsableLegalS_N = "s";
+                    _baseDatos.PersonaProyecto.Add(pp);
 					_baseDatos.Proyecto.Add(proyecto);
 					_baseDatos.SaveChanges();
 					ModelState.Clear();
@@ -44,7 +58,37 @@ namespace proyectoTWA.Controllers
 			}
 			return View();
 		}
+    
+            public ActionResult ModificarProyecto(Proyecto proyecto)
+        {
+            if (ModelState.IsValid)
+            {
+                var cuenta = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyecto.NombreProyecto).FirstOrDefault();
+                if (cuenta != null)
+                {
+                    var sesion = HttpContext.Session.GetString("UserID");
+                    PersonaProyecto pp = new PersonaProyecto();
+                    pp.NombreProyecto = proyecto.NombreProyecto;
+                    pp.Rut = sesion;
+                    pp.DirectorS_N = "s";
+                    pp.ResponsableLegalS_N = "s";
 
+                    _baseDatos.PersonaProyecto.Add(pp);
+                    _baseDatos.Proyecto.Add(proyecto);
+                    _baseDatos.SaveChanges();
+                    ModelState.Clear();
+                    ViewBag.Message = "El proyecto '" + proyecto.NombreProyecto + "' se ha ingresado correctamente";
+                }
+                else
+                {
+                    ViewBag.Message = "El proyecto no existe";
+                    return View();
+        
+                    
+                }
+            }
+            return View();
+        }
         //public IActionResult Proyecto()
         //{
         //    return RedirectToAction("Feed", "Proyecto", new { nombre = nombre });
