@@ -19,7 +19,7 @@
         <div class="form-group">
             <label asp-for="NombreProyecto" class="col-md-2 control-label">Nombre</label>
             <div class="col-md-10">
-                <input asp-for="NombreProyecto" readonly class="form-control" />
+                <input asp-for="NombreProyecto" readonly class="form-control" value=@Model.NombreProyecto/>
                 <span asp-validation-for="NombreProyecto" class="text-danger"></span>
             </div>
         </div>
@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<label asp-for="FechaInicio" class="col-md-2 control-label">Fecha de inicio</label>
 			<div class="col-md-10">
-				<input type="date" asp-for="FechaInicio" class="form-control" />
+				<input type="date" asp-for="FechaInicio" class="form-control" value=@Model.FechaInicio />
 				<span asp-validation-for="FechaInicio" class="text-danger"></span>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 		<div class="form-group">
 			<label asp-for="FechaTermino" class="col-md-2 control-label">Fecha de término</label>
 			<div class="col-md-10">
-				<input type="date" asp-for="FechaTermino" class="form-control" />
+				<input type="date" asp-for="FechaTermino" class="form-control" value=@Model.FechaTermino />
 				<span asp-validation-for="FechaTermino" class="text-danger"></span>
 			</div>
 		</div>

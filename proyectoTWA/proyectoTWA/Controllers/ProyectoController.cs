@@ -24,11 +24,11 @@ namespace proyectoTWA.Controllers
         {
             return View(_baseDatos.Proyecto.ToList());
         }
-        //public ActionResult NuevoProyecto()
-        //{
-        //    return View();
-        //}
-        public ActionResult NuevoProyecto(Proyecto proyecto)
+        public IActionResult NuevoProyecto()
+        {
+            return View();
+        }
+        public IActionResult NuevoProyecto(Proyecto proyecto)
         {
 			if (ModelState.IsValid)
 			{
@@ -74,7 +74,6 @@ namespace proyectoTWA.Controllers
                     pp.ResponsableLegalS_N = "s";
 
                     _baseDatos.PersonaProyecto.Add(pp);
-                    _baseDatos.Proyecto.Add(proyecto);
                     _baseDatos.SaveChanges();
                     ModelState.Clear();
                     ViewBag.Message = "El proyecto '" + proyecto.NombreProyecto + "' se ha ingresado correctamente";
