@@ -8,9 +8,10 @@ using proyectoTWA.Models;
 namespace proyectoTWA.Migrations
 {
     [DbContext(typeof(BaseDatos))]
-    partial class BaseDatosModelSnapshot : ModelSnapshot
+    [Migration("20170727195449_Add-Migration")]
+    partial class AddMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

@@ -91,7 +91,7 @@ namespace proyectoTWA.Controllers
             Registro registro = new Registro();
             registro.Rut = HttpContext.Session.GetString("UserID");
             registro.NombreArchivo = nombreArchivo;
-            registro.NombreProyecto = nombreProyecto;
+            //registro.NombreProyecto = nombreProyecto;
             registro.TipoModificacion = "agregar";
             _baseDatos.Registro.Add(registro);
             _baseDatos.SaveChanges();

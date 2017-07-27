@@ -26,9 +26,9 @@ namespace proyectoTWA.Models
         [Required(ErrorMessage = "Debe ingresar una contraseña para continuar")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Compare("Password",ErrorMessage = "La contraseña ingresada no coincide")]
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        [DataType(DataType.Password)]
-        public string ConfirmarPassword { get; set; }
+        //[Compare("Password",ErrorMessage = "La contraseña ingresada no coincide")]
+        //[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        //[DataType(DataType.Password)]
+        //public string ConfirmarPassword { get; set; }
     }
 }
