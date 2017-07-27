@@ -25,10 +25,25 @@ namespace proyectoTWA.Controllers
             return View(_baseDatos.Proyecto.ToList());
         }
 
-        public ActionResult NuevoProyecto()
+        public ActionResult NuevoProyecto(Proyecto proyecto)
         {
-            return View();
-        }
+			if (ModelState.IsValid)
+			{
+				var cuenta = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyecto.NombreProyecto).FirstOrDefault();
+				if (cuenta != null)
+				{
+					ViewBag.Message = "Ya existe un proyecto con ese nombre";
+					return View();
+				}
+				else { 
+					_baseDatos.Proyecto.Add(proyecto);
+					_baseDatos.SaveChanges();
+					ModelState.Clear();
+					ViewBag.Message = "El proyecto '" + proyecto.NombreProyecto + "' se ha ingresado correctamente";
+				}
+			}
+			return View();
+		}
 
         //public IActionResult Proyecto()
         //{
@@ -36,98 +51,16 @@ namespace proyectoTWA.Controllers
         //    //return RedirectToAction("UpdateFile", "Proyecto", new { nombre = nombre });
         //}
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
 
         public IActionResult Error()
         {
             return View();
         }
 
-        public ActionResult Registrar()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Registrar(Persona persona)
-        {
-            if (ModelState.IsValid)
-            {
-                var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
-                if (cuenta != null)
-                {
-                    ViewBag.Message = "El RUT ingresado ya existe en el sistema";
-                    return View();
-                }
-                persona.Password = GetHash(persona.Password);
-                _baseDatos.Persona.Add(persona);
-                _baseDatos.SaveChanges();
 
-                ModelState.Clear();
-                ViewBag.Message = persona.Nombre + " " + persona.ApellidoPaterno + " " + persona.ApellidoMaterno + " se ha ingresado correctamente";
-
-            }
-            return View();
-        }
-
-        private static string GetHash(string text)
-        {
-            text = "08rkeo87s0" + text;
-            // SHA512 is disposable by inheritance.  
-            using (var sha256 = SHA256.Create())
-            {
-                // Send a sample text to hash.  
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-                // Get the hashed string.  
-                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-            }
-        }
         public IActionResult Feed()
         {
             return View(_baseDatos.Proyecto.ToList());
-        }
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(Persona persona)
-        {
-            var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
-            if (cuenta == null)
-            {
-                ModelState.AddModelError("", "Rut o contraseña incorrecta");
-            }
-            else
-            {
-                if (cuenta.Password == GetHash(persona.Password))
-                {
-                    HttpContext.Session.SetString("UserID", cuenta.Rut.ToString());
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Rut o contraseña incorrecta");
-                }
-            }
-            return View();
-        }
-
-        public ActionResult Salir()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index");
         }
        
     }

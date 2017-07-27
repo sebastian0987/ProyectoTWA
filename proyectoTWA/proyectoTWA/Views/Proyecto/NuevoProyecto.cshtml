@@ -13,7 +13,7 @@
             <div class="col-md-10">@ViewBag.Message</div>
         </div>
     }
-    <form asp-action="NuevoProyecto" asp-controller="Proyecto" method="post" enctype="multipart/form-data">
+    <form asp-action="NuevoProyecto" asp-controller="Proyecto" method="post">
 
         <div class="form-group">
             <label asp-for="NombreProyecto" class="col-md-2 control-label">Nombre</label>
@@ -39,9 +39,11 @@
 			</div>
 		</div>
 
-        <div class="form-group">
-            <input type="submit" value="Subir" />
-        </div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button type="submit" class="btn btn-default">Crear</button>
+			</div>
+		</div>
 
     </form>
 </div>
