@@ -1,4 +1,4 @@
-﻿@model proyectoTWA.Models.Proyecto
+﻿@model proyectoTWA.ViewModels.ModificarProyectoViewModel
 
 @{
 	ViewData["Title"] = "Modificar Proyecto";
@@ -6,22 +6,22 @@
 
 @*<script type="text/javascript">
 
-	$(function () {
-		var asd = document.getElementById("NuevoColaborador").value.toString();
-		$("#NuevoColaborador").on("change", function() {
-			var asd = $("#NuevoColaborador").val($(this).text());
-			alert("asd");
+		$(function () {
+			var asd = document.getElementById("NuevoColaborador").value.toString();
+			$("#NuevoColaborador").on("change", function() {
+				var asd = $("#NuevoColaborador").val($(this).text());
+				alert("asd");
+			});
+			alert(asd);
 		});
-		alert(asd);
-	});
-</script>*@
+	</script>*@
 
 <h2>@ViewBag.Proyecto.NombreProyecto</h2>
 
 @*@foreach(var item in (List<proyectoTWA.Models.PersonaProyecto>)ViewBag.PersonasProyecto)
-{
-	@item.ResponsableLegalS_N
-}*@
+	{
+		@item.ResponsableLegalS_N
+	}*@
 
 
 <div class="form-horizontal">
@@ -34,26 +34,26 @@
 	<form asp-action="ModificarProyecto" asp-controller="Proyecto" method="post">
 
 		<div class="form-group">
-			<label asp-for="NombreProyecto" class="col-md-2 control-label">Nombre</label>
+			<label asp-for="@Model.Proyecto.NombreProyecto" class="col-md-2 control-label">Nombre</label>
 			<div class="col-md-10">
-				<input asp-for="NombreProyecto" class="form-control" value=@ViewBag.Proyecto.NombreProyecto readonly/>
-				<span asp-validation-for="NombreProyecto" class="text-danger"></span>
+				<input asp-for="@Model.Proyecto.NombreProyecto" class="form-control" value=@ViewBag.Proyecto.NombreProyecto readonly />
+				<span asp-validation-for="@Model.Proyecto.NombreProyecto" class="text-danger"></span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label asp-for="FechaInicio" class="col-md-2 control-label">Fecha de inicio</label>
+			<label asp-for="@Model.Proyecto.FechaInicio" class="col-md-2 control-label">Fecha de inicio</label>
 			<div class="col-md-10">
-				<input type="date" asp-for="FechaInicio" class="form-control" value=@ViewBag.Proyecto.FechaInicio />
-				<span asp-validation-for="FechaInicio" class="text-danger"></span>
+				<input type="date" asp-for="@Model.Proyecto.FechaInicio" class="form-control" value=@Model.Proyecto.FechaInicio />
+				<span asp-validation-for="@Model.Proyecto.FechaInicio" class="text-danger"></span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label asp-for="FechaTermino" class="col-md-2 control-label">Fecha de término</label>
+			<label asp-for="@Model.Proyecto.FechaTermino" class="col-md-2 control-label">Fecha de término</label>
 			<div class="col-md-10">
-				<input type="date" asp-for="FechaTermino" class="form-control" value=@ViewBag.Proyecto.FechaTermino />
-				<span asp-validation-for="FechaTermino" class="text-danger"></span>
+				<input type="date" asp-for="@Model.Proyecto.FechaTermino" class="form-control" value=@Model.Proyecto.FechaTermino />
+				<span asp-validation-for="@Model.Proyecto.FechaTermino" class="text-danger"></span>
 			</div>
 		</div>
 
@@ -65,15 +65,15 @@
 						<th>Rut</th>
 						<th>¿Director?</th>
 						<th>¿Responsable Legal?</th>
-						
+
 					</tr>
-					@foreach (var persona in ViewBag.Colaboradores)
+					@foreach (var persona in Model.PersonaProyectos)
 					{
 						<tr>
 							<td> @persona.Rut</td>
 							<td> @persona.DirectorS_N</td>
 							<td> @persona.ResponsableLegalS_N</td>
-							
+
 						</tr>
 					}
 				</table>
@@ -94,8 +94,14 @@
 					{
 						<tr>
 							<td> @persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</td>
-							<td> @Html.CheckBox("Director" + persona.Rut, false) </td>
-							<td>@Html.CheckBox("ResponsableLegal"+persona.Rut, false) </td>
+							<td>
+								<div class="checkbox">
+									<label><input type="checkbox" id="CheckboxDirector" value=""></label>
+								</div>
+							</td>
+							<td>
+								@Html.CheckBox("", true)
+							</td>
 							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { nombre = persona.Rut })</td>
 
 						</tr>
@@ -103,14 +109,14 @@
 				</table>
 			</div>
 			@*<div class="col-md-10">
-				<select id ="NuevoColaborador" class="form-control">
-					@foreach (var persona in (List<proyectoTWA.Models.Persona>)ViewBag.PersonasAjenasAlProyecto)
-					{
-						<option>@persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</option>
-					}
-				</select>
-			</div>*@
-			
+					<select id ="NuevoColaborador" class="form-control">
+						@foreach (var persona in (List<proyectoTWA.Models.Persona>)ViewBag.PersonasAjenasAlProyecto)
+						{
+							<option>@persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</option>
+						}
+					</select>
+				</div>*@
+
 
 			@*@Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { nombre = persona.Rut})*@
 		</div>

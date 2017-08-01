@@ -11,7 +11,7 @@ namespace proyectoTWA.Models
         [Key]
         [Required(ErrorMessage = "Debe ingresar un Nombre para continuar")]
         public string Rut { get; set; }
-        public string NombreProyecto { get; set; }
+		public string NombreProyecto { get; set; }
         public string DirectorS_N { get; set; }
         public string ResponsableLegalS_N { get; set; }
     }

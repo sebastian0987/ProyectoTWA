@@ -7,6 +7,21 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-lumen.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap - Copia.css.map">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap - Copia.min.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-lumen.css.map" />
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-lumen.min.css" />
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-lumen.min.css.map" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
