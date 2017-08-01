@@ -122,7 +122,6 @@ namespace proyectoTWA.Controllers
 		{
 			
 			var proyecto = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyectoModificado.NombreProyecto).FirstOrDefault();
-			var personasAjenasAlProyecto = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto != proyecto.NombreProyecto).ToList();
 			ViewBag.Proyecto = proyecto;
 
 			if (ModelState.IsValid)
@@ -146,13 +145,22 @@ namespace proyectoTWA.Controllers
 					
 				}
 			}
-			return View(proyectoModificado);
+			//return View(proyectoModificado);
+			return RedirectToAction("ModificarProyecto", "Proyecto", new { nombre = proyecto.NombreProyecto });
 		}
 
 		public IActionResult EliminarProyecto(string nombre)
 		{
-
-			return View();
+			var proyecto = _baseDatos.Proyecto.Where(p => p.NombreProyecto == nombre).FirstOrDefault();
+			var personaproyecto = _baseDatos.PersonaProyecto.Where(pp => pp.NombreProyecto == nombre);
+			_baseDatos.Proyecto.Remove(proyecto);
+			foreach(var pp in personaproyecto)
+			{
+				_baseDatos.PersonaProyecto.Remove(pp);
+			}
+			//_baseDatos.PersonaProyecto.RemoveRange(_baseDatos.PersonaProyecto.Where(pp => pp.NombreProyecto == nombre).ToList());
+			_baseDatos.SaveChanges();
+			return RedirectToAction("Feed", "Proyecto");
 		}
 
 		public IActionResult Error()
