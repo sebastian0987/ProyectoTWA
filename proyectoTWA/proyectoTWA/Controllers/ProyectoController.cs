@@ -10,6 +10,8 @@ using Microsoft.Net.Http.Headers;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 
 namespace proyectoTWA.Controllers
 {
@@ -35,8 +37,8 @@ namespace proyectoTWA.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var cuenta = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyecto.NombreProyecto).FirstOrDefault();
-				if (cuenta != null)
+				var nomproyecto = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyecto.NombreProyecto).FirstOrDefault();
+				if (nomproyecto != null)
 				{
 					ViewBag.Message = "Ya existe un proyecto con ese nombre";
 					return View();
@@ -71,11 +73,12 @@ namespace proyectoTWA.Controllers
 			var colaboradores = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto == nombre).ToList();
 			var personasAjenasAlProyecto = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto != nombre).ToList();
 			var c = (from p in _baseDatos.Persona join col in colaboradores on p.Rut equals col.Rut select new { p.Rut , p.Nombre, p.ApellidoPaterno, p.ApellidoMaterno, col.ResponsableLegalS_N, col.DirectorS_N });
-			var q = (from p in _baseDatos.Persona join pp in _baseDatos.PersonaProyecto on p.Rut equals pp.Rut into ps from pp in ps.DefaultIfEmpty() where pp.NombreProyecto != nombre select new { p.Nombre, Rut = pp == null ? "null" : p.Rut , p.ApellidoPaterno, p.ApellidoMaterno });
+			//var q = (from p in _baseDatos.Persona join pp in _baseDatos.PersonaProyecto on p.Rut equals pp.Rut into ps from pp in ps.DefaultIfEmpty() where pp.NombreProyecto != nombre && pp.Rut == p.Rut select new { p.Nombre, Rut = pp == null ? "null" : p.Rut, p.ApellidoPaterno, p.ApellidoMaterno });
+			var q = _baseDatos.Persona.Where(p => !_baseDatos.PersonaProyecto.Any(pp => pp.NombreProyecto == nombre && pp.Rut == p.Rut));
 			var personasAjenas = new List<Persona>();
 			var personasAfiliadas = new List<PersonaProyecto>();
 
-			string query = "SELECT * FROM persona p LEFT JOIN personaproyecto pp ON p.rut = pp.rut WHERE pp.nombreProyecto IS NULL OR pp.nombreProyecto != 'proyecto1'";
+			//string query = "SELECT * FROM persona p WHERE not exists(select* from personaproyecto pp  where pp.nombreProyecto = 'proyecto2' and p.rut = pp.rut)";
 			
 			foreach (var t in q)
 			{
@@ -115,9 +118,10 @@ namespace proyectoTWA.Controllers
 			return View();
 		}
 		[HttpPost]
-		public IActionResult ModificarProyecto(Proyecto ProyectoModificado)
+		public IActionResult ModificarProyecto(Proyecto proyectoModificado)
 		{
-			var proyecto = _baseDatos.Proyecto.Where(u => u.NombreProyecto == ProyectoModificado.NombreProyecto).FirstOrDefault();
+			
+			var proyecto = _baseDatos.Proyecto.Where(u => u.NombreProyecto == proyectoModificado.NombreProyecto).FirstOrDefault();
 			var personasAjenasAlProyecto = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto != proyecto.NombreProyecto).ToList();
 			ViewBag.Proyecto = proyecto;
 
@@ -127,8 +131,8 @@ namespace proyectoTWA.Controllers
 				{
 					//var sesion = HttpContext.Session.GetString("UserID");
 			
-					proyecto.FechaInicio = ProyectoModificado.FechaInicio;
-					proyecto.FechaTermino = ProyectoModificado.FechaTermino;
+					proyecto.FechaInicio = proyectoModificado.FechaInicio;
+					proyecto.FechaTermino = proyectoModificado.FechaTermino;
 					
 					_baseDatos.SaveChanges();
 					ViewBag.Message = "Proyecto modificado con éxito.";
@@ -142,7 +146,7 @@ namespace proyectoTWA.Controllers
 					
 				}
 			}
-			return View(ProyectoModificado);
+			return View(proyectoModificado);
 		}
 
 		public IActionResult EliminarProyecto(string nombre)
@@ -162,10 +166,18 @@ namespace proyectoTWA.Controllers
 			return View(_baseDatos.Proyecto.ToList());
 		}
 
-
-		public IActionResult AgregarPersonaAlProyecto(object nombre)
+		
+		public IActionResult AgregarPersonaAlProyecto(string rut, string nombreProyecto, string director, string responsable)
 		{
-			throw new NotImplementedException();
+			PersonaProyecto pp = new PersonaProyecto();
+			pp.NombreProyecto = nombreProyecto;
+			pp.Rut = rut;
+			pp.DirectorS_N = director;
+			pp.ResponsableLegalS_N = responsable;
+			_baseDatos.PersonaProyecto.Add(pp);
+			_baseDatos.SaveChanges();
+			ModelState.Clear();
+			return RedirectToAction("ModificarProyecto", "Proyecto", new {nombre = nombreProyecto});
 		}
 	}
 }

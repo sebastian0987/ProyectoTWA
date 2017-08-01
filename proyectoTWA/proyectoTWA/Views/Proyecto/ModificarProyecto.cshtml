@@ -86,17 +86,20 @@
 				<table>
 					<tr>
 						<th>Nombre</th>
-						<th>¿Director?</th>
-						<th>¿Responsable Legal?</th>
+						<th>Agregar normalmente</th>
+						<th>Agregar como director</th>
+						<th>Agregar como responsable legal</th>
+						<th>Agregar como director y responsable legal</th>
 
 					</tr>
 					@foreach (var persona in (List<proyectoTWA.Models.Persona>)ViewBag.PersonasAjenasAlProyecto)
 					{
 						<tr>
 							<td> @persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</td>
-							<td> @Html.CheckBox("Director" + persona.Rut, false) </td>
-							<td>@Html.CheckBox("ResponsableLegal"+persona.Rut, false) </td>
-							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { nombre = persona.Rut })</td>
+							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", "Proyecto", new { rut = persona.Rut, nombreProyecto = ViewBag.Proyecto.NombreProyecto, director = 'n', responsable = 'n' })</td>
+							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { rut = persona.Rut, nombreProyecto = ViewBag.Proyecto.NombreProyecto, director = 's', responsable = 'n' })</td>
+							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { rut = persona.Rut, nombreProyecto = ViewBag.Proyecto.NombreProyecto, director = 'n', responsable = 's' })</td>
+							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { rut = persona.Rut, nombreProyecto = ViewBag.Proyecto.NombreProyecto, director = 's', responsable = 's' })</td>
 
 						</tr>
 					}
