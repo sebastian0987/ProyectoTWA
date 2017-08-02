@@ -125,11 +125,12 @@ namespace proyectoTWA.Controllers
                 {
                     //Para modificar
                     cuenta.Estado = archivo.Estado;
+                    ModificarRegistro(archivo.NombreArchivo,cuenta.Estado);
                     //_baseDatos.Update(cuenta);
                     _baseDatos.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ListaArchivo");
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ListaArchivo");
 
                 //Para borrar
                 //_baseDatos.Remove(cuenta);
@@ -139,9 +140,21 @@ namespace proyectoTWA.Controllers
             
         }
 
-        public IActionResult ListaArchivo(string nombreProyecto)
+
+        private void ModificarRegistro(string nombreArchivo,string nuevoEstado)
         {
-            var cuenta = _baseDatos.Archivo.Where(u => u.NombreProyecto == nombreProyecto).ToList();
+            Registro registro = new Registro();
+            var rut = HttpContext.Session.GetString("UserID");
+            var cuenta = _baseDatos.Persona.Where(u => u.Rut == rut).First();
+            registro.NombreArchivo = nombreArchivo;
+            registro.TipoModificacion = cuenta.Nombre + " cambio el estado del archivo " + nombreArchivo + " a " + nuevoEstado + " (Proyecto " + HttpContext.Session.GetString("ProyectoID") + ")"; 
+            _baseDatos.Registro.Add(registro);
+            _baseDatos.SaveChanges();
+        }
+
+        public IActionResult ListaArchivo()
+        {
+            var cuenta = _baseDatos.Archivo.Where(u => u.NombreProyecto == HttpContext.Session.GetString("ProyectoID")).ToList();
             //if (cuenta == null)
             //{
             //    ViewBag.Message = "Error";

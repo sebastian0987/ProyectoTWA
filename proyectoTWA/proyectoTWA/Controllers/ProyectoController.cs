@@ -191,7 +191,7 @@ namespace proyectoTWA.Controllers
 
         public IActionResult Archivo(string nombreProyecto)
         {
-            return RedirectToAction("ListaArchivo", "Archivo", new { nombreProyecto = nombreProyecto });
+            return RedirectToAction("ListaArchivo", "Archivo");
         }
 
         private void ObtenerRegistros()
@@ -200,7 +200,7 @@ namespace proyectoTWA.Controllers
             //_baseDatos.Proyecto.Where(u => u.NombreProyecto == proyectoModificado.NombreProyecto).FirstOrDefault();
             var rut = HttpContext.Session.GetString("UserID");
             var proyectos = _baseDatos.PersonaProyecto.Where(u => u.Rut == rut).ToList();
-            var archivos = (from a in _baseDatos.Archivo join p in proyectos on a.NombreProyecto equals p.NombreProyecto join r in _baseDatos.Registro on a.NombreArchivo equals r.NombreArchivo select new {r.TipoModificacion }).ToList();
+            var archivos = (from a in _baseDatos.Archivo join p in proyectos on a.NombreProyecto equals p.NombreProyecto join r in _baseDatos.Registro on a.NombreArchivo equals r.NombreArchivo select new {r.TipoModificacion }).Take(10);
             List<string> listaArchivos = new List<string>();
             foreach (var archivo in archivos)
             {
