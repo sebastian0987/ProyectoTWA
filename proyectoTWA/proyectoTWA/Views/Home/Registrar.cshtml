@@ -16,28 +16,28 @@
         <div class="form-group">
             <label asp-for="Rut" class="col-md-2 control-label">RUT</label>
             <div class="col-md-10">
-                <input asp-for="Rut" class="form-control" />
+                <input asp-for="Rut" class="form-control" maxlength="9"/>
                 <span asp-validation-for="Rut" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Nombre" class="col-md-2 control-label">Nombre</label>
             <div class="col-md-10">
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-control" maxlength="25"/>
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
         </div>   
         <div class="form-group">
             <label asp-for="ApellidoPaterno" class="col-md-2 control-label"> Apellido Paterno</label>
             <div class="col-md-10">
-                <input asp-for="ApellidoPaterno" class="form-control" />
+                <input asp-for="ApellidoPaterno" class="form-control" maxlength="25"/>
                 <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="ApellidoMaterno" class="col-md-2 control-label">Apellido Materno</label>
             <div class="col-md-10">
-                <input asp-for="ApellidoMaterno" class="form-control" />
+                <input asp-for="ApellidoMaterno" class="form-control" maxlength="25"/>
                 <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
             </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="form-group">
             <label asp-for="Email" class="col-md-2 control-label">Correo</label>
             <div class="col-md-10">
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" maxlength="100"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
@@ -59,8 +59,8 @@
             <label asp-for="Administrador" class="col-md-2 control-label">¿Es un administrador?</label>
             <div class="col-md-10">
                 <select asp-for="Administrador" class="form-control">
-                    <option value="no">No</option>
-                    <option value="si">Si</option>
+                    <option value="n">No</option>
+                    <option value="s">Si</option>
                 </select>
                 <span asp-validation-for="Administrador" class="text-danger"></span>
             </div>
@@ -68,14 +68,14 @@
         <div class="form-group">
             <label asp-for="Password" class="col-md-2 control-label">Contraseña</label>
             <div class="col-md-10">
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" maxlength="50"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="ConfirmarPassword" class="col-md-2 control-label">Confirmar Contraseña</label>
             <div class="col-md-10">
-                <input asp-for="ConfirmarPassword" class="form-control" />
+                <input asp-for="ConfirmarPassword" class="form-control" maxlength="50"/>
                 <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
             </div>
         </div>

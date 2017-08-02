@@ -171,8 +171,30 @@ namespace proyectoTWA.Controllers
 
 		public IActionResult Feed()
 		{
+            //Obtener registro de los archivos en los proyectos del usuario
             ObtenerRegistros();
-			return View(_baseDatos.Proyecto.ToList());
+            var rut = HttpContext.Session.GetString("UserID");
+            var personaProyectos = _baseDatos.PersonaProyecto.Where(u => u.Rut == rut).ToList();
+            var proyectos = (from p in _baseDatos.Proyecto
+                             join pp in personaProyectos
+                             on p.NombreProyecto equals pp.NombreProyecto
+                             select new
+                             {
+                                 p.NombreProyecto,
+                                 p.FechaInicio,
+                                 p.FechaTermino
+                             });
+            List<Proyecto> listaProyectos = new List<Proyecto>();
+            foreach (var p in proyectos)
+            {
+                Proyecto proyecto = new Proyecto();
+                proyecto.NombreProyecto = p.NombreProyecto;
+                proyecto.FechaInicio = p.FechaInicio;
+                proyecto.FechaTermino = p.FechaTermino;
+                listaProyectos.Add(proyecto);
+
+            }
+            return View(listaProyectos);
 		}
 
 		

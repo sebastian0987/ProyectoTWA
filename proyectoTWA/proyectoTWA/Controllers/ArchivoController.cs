@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Hosting;
 using proyectoTWA.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -95,7 +94,7 @@ namespace proyectoTWA.Controllers
 
             registro.NombreArchivo = nombreArchivo;
             //registro.NombreProyecto = nombreProyecto;
-            registro.TipoModificacion = cuenta.Nombre + " agrego el archivo " + nombreArchivo + " al proyecto " + nombreProyecto;
+            registro.TipoModificacion = cuenta.Nombre + " " + cuenta.ApellidoPaterno + " agrego el archivo " + nombreArchivo + " al proyecto " + nombreProyecto;
             _baseDatos.Registro.Add(registro);
             _baseDatos.SaveChanges();
         }
@@ -147,7 +146,7 @@ namespace proyectoTWA.Controllers
             var rut = HttpContext.Session.GetString("UserID");
             var cuenta = _baseDatos.Persona.Where(u => u.Rut == rut).First();
             registro.NombreArchivo = nombreArchivo;
-            registro.TipoModificacion = cuenta.Nombre + " cambio el estado del archivo " + nombreArchivo + " a " + nuevoEstado + " (Proyecto " + HttpContext.Session.GetString("ProyectoID") + ")"; 
+            registro.TipoModificacion = cuenta.Nombre + " " + cuenta.ApellidoPaterno + " cambio el estado del archivo " + nombreArchivo + " a " + nuevoEstado + " (Proyecto " + HttpContext.Session.GetString("ProyectoID") + ")"; 
             _baseDatos.Registro.Add(registro);
             _baseDatos.SaveChanges();
         }
@@ -155,23 +154,6 @@ namespace proyectoTWA.Controllers
         public IActionResult ListaArchivo()
         {
             var cuenta = _baseDatos.Archivo.Where(u => u.NombreProyecto == HttpContext.Session.GetString("ProyectoID")).ToList();
-            //if (cuenta == null)
-            //{
-            //    ViewBag.Message = "Error";
-            //    return View(archivo);
-            //}
-            //else
-            //{
-            //    if (archivo.Estado != null)
-            //    {
-            //        //Para modificar
-            //        cuenta.Estado = archivo.Estado;
-            //        //_baseDatos.Update(cuenta);
-            //        _baseDatos.SaveChanges();
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    return RedirectToAction("Index", "Home");
-            //}
 
             return View(cuenta);
         }
