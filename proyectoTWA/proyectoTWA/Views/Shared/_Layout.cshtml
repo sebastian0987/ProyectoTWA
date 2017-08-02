@@ -29,25 +29,33 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">proyectoTWA</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Proyecto" asp-action="Feed">Feed</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Archivo" asp-action="AddFiles">Subir Archivo</a></li>
-                    <li><a asp-area="" asp-controller="Archivo" asp-action="UpdateFile">Modificar Archivo</a></li>
+ 
+                    
                     @if (Context.Session.GetString("UserID") != null)
-					{
+                    {
+                        <li><a asp-area="" asp-controller="Proyecto" asp-action="Feed" class="navbar-brand">proyectoTWA</a></li>
+                        <li><a asp-area="" asp-controller="Proyecto" asp-action="Feed">Feed</a></li>                       
 						<li><a asp-area="" asp-controller="Home" asp-action="Registrar">Registrar Usuario</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="" asp-action="" class="navbar-brand">proyectoTWA</a></li>
+                    }
+                    @*@if (Context.Session.GetString("ProyectoID") != null)
+                    {
+                        <li><a asp-area="" asp-controller="Archivo" asp-action="AddFiles">Subir Archivo</a></li>
+                        <li><a asp-area="" asp-controller="Archivo" asp-action="UpdateFile">Modificar Archivo</a></li>
+
+                    }*@
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Context.Session.GetString("UserID") != null)
+                    {
                         <li><a asp-area="" asp-controller="Home" asp-action="Salir">Salir</a></li>
-					}
-					else
-					{
-                        <li><a asp-area="" asp-controller="Home" asp-action="Login">Iniciar Sesión</a></li>
                     }
                 </ul>
             </div>

@@ -33,8 +33,8 @@ namespace proyectoTWA
 			services.AddMvc();
 			services.AddDistributedMemoryCache();
 			services.AddSession();
-			var connection = @"Server = ANDRÉS-PC\SQLEXPRESS;Database=twa;Trusted_Connection=True;";
-			//var connection = @"Server = (localdb)\MSSQLLocalDB;Database=twa;Trusted_Connection=True;";
+			//var connection = @"Server = ANDRÉS-PC\SQLEXPRESS;Database=twa;Trusted_Connection=True;";
+			var connection = @"Server = (localdb)\MSSQLLocalDB;Database=twa;Trusted_Connection=True;";
 			services.AddDbContext<BaseDatos>(options => options.UseSqlServer(connection));
 		}
 
@@ -61,7 +61,7 @@ namespace proyectoTWA
 			{
 				routes.MapRoute(
 					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
+					template: "{controller=Home}/{action=Login}");
 			});
 		}
 	}

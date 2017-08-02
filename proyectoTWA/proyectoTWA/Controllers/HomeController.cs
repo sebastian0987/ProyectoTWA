@@ -22,7 +22,7 @@ namespace proyectoTWA.Controllers
         }
         public IActionResult Index()
         {
-            return View(_baseDatos.Archivo.ToList());
+            return View();
         }
 
         public IActionResult Archivo(string nombre)
@@ -101,6 +101,9 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Login(Persona persona)
         {
+            if (ModelState.IsValid)
+            {
+            
             var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
             if (cuenta == null)
             {
@@ -111,12 +114,14 @@ namespace proyectoTWA.Controllers
                 if (cuenta.Password == GetHash(persona.Password))
                 {
                     HttpContext.Session.SetString("UserID", cuenta.Rut.ToString());
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Feed", "Proyecto");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Rut o contraseña incorrecta");
                 }
+            }
+
             }
             return View();
         }
@@ -124,7 +129,7 @@ namespace proyectoTWA.Controllers
         public ActionResult Salir()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
 
 

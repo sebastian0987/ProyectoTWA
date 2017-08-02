@@ -69,8 +69,8 @@ namespace proyectoTWA.Controllers
 			
 			var proyecto = _baseDatos.Proyecto.Where(u => u.NombreProyecto == nombre).FirstOrDefault();
 			ViewBag.Proyecto = proyecto;
-
-			var colaboradores = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto == nombre).ToList();
+            HttpContext.Session.SetString("ProyectoID", nombre);
+            var colaboradores = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto == nombre).ToList();
 			var personasAjenasAlProyecto = _baseDatos.PersonaProyecto.Where(u => u.NombreProyecto != nombre).ToList();
 			var c = (from p in _baseDatos.Persona join col in colaboradores on p.Rut equals col.Rut select new { p.Rut , p.Nombre, p.ApellidoPaterno, p.ApellidoMaterno, col.ResponsableLegalS_N, col.DirectorS_N });
 			//var q = (from p in _baseDatos.Persona join pp in _baseDatos.PersonaProyecto on p.Rut equals pp.Rut into ps from pp in ps.DefaultIfEmpty() where pp.NombreProyecto != nombre && pp.Rut == p.Rut select new { p.Nombre, Rut = pp == null ? "null" : p.Rut, p.ApellidoPaterno, p.ApellidoMaterno });
