@@ -101,8 +101,8 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Login(Persona persona)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
             
             var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
             if (cuenta == null)
@@ -122,7 +122,7 @@ namespace proyectoTWA.Controllers
                 }
             }
 
-            }
+            //}
             return View();
         }
 

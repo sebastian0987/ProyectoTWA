@@ -171,6 +171,7 @@ namespace proyectoTWA.Controllers
 
 		public IActionResult Feed()
 		{
+            ObtenerRegistros();
 			return View(_baseDatos.Proyecto.ToList());
 		}
 
@@ -187,5 +188,26 @@ namespace proyectoTWA.Controllers
 			ModelState.Clear();
 			return RedirectToAction("ModificarProyecto", "Proyecto", new {nombre = nombreProyecto});
 		}
-	}
+
+        public IActionResult Archivo(string nombreProyecto)
+        {
+            return RedirectToAction("ListaArchivo", "Archivo", new { nombreProyecto = nombreProyecto });
+        }
+
+        private void ObtenerRegistros()
+        {
+            //var c = (from p in _baseDatos.Persona join col in colaboradores on p.Rut equals col.Rut select new { p.Rut , p
+            //_baseDatos.Proyecto.Where(u => u.NombreProyecto == proyectoModificado.NombreProyecto).FirstOrDefault();
+            var rut = HttpContext.Session.GetString("UserID");
+            var proyectos = _baseDatos.PersonaProyecto.Where(u => u.Rut == rut).ToList();
+            var archivos = (from a in _baseDatos.Archivo join p in proyectos on a.NombreProyecto equals p.NombreProyecto join r in _baseDatos.Registro on a.NombreArchivo equals r.NombreArchivo select new {r.TipoModificacion }).ToList();
+            List<string> listaArchivos = new List<string>();
+            foreach (var archivo in archivos)
+            {
+                listaArchivos.Add(archivo.TipoModificacion);
+                
+            }
+            ViewBag.Feed = listaArchivos;
+        }
+    }
 }

@@ -45,7 +45,7 @@ namespace proyectoTWA.Controllers
                 //Archivo archivo = new Archivo();
                 //DateTime fecha = new DateTime();
                 //var h = fecha.Year.ToString() + fecha.Second.ToString();
-                var nombreProyecto = DateTime.Now.ToString("MMddyyyyHmmssfff");
+                //var nombreProyecto = DateTime.Now.ToString("MMddyyyyHmmssfff");
                 //Se obtiene el nombre del archivo mas su extension
                 var filename = ContentDispositionHeaderValue
                                 .Parse(file.ContentDisposition)
@@ -60,7 +60,7 @@ namespace proyectoTWA.Controllers
                 //Se agrega el nombre del archivo a la ruta 'C:\Users\tatan\Source\Repos\ProyectoTWA\proyectoTWA\proyectoTWA\wwwroot'
                 filename = hostingEnv.WebRootPath + $@"\{archivo.NombreArchivo}";
                 archivo.Ubicacion = hostingEnv.WebRootPath;
-                archivo.NombreProyecto = nombreProyecto;
+                //archivo.NombreProyecto = nombreProyecto;
                 size += file.Length;
 
                 //Verificar que no existan dos archivos con el mismo nombre dentro de un proyecto
@@ -77,6 +77,7 @@ namespace proyectoTWA.Controllers
                     fs.Flush();
                 }
                 archivo.Rut = HttpContext.Session.GetString("UserID");
+                archivo.NombreProyecto = HttpContext.Session.GetString("ProyectoID");
                 RegistrarArchivo(archivo.NombreArchivo,archivo.NombreProyecto);
                 _baseDatos.Archivo.Add(archivo);
                 _baseDatos.SaveChanges();
@@ -89,10 +90,12 @@ namespace proyectoTWA.Controllers
         private void RegistrarArchivo(string nombreArchivo,string nombreProyecto)
         {
             Registro registro = new Registro();
-            registro.Rut = HttpContext.Session.GetString("UserID");
+            var rut = HttpContext.Session.GetString("UserID");
+            var cuenta = _baseDatos.Persona.Where(u => u.Rut == rut).First();
+
             registro.NombreArchivo = nombreArchivo;
             //registro.NombreProyecto = nombreProyecto;
-            registro.TipoModificacion = "agregar";
+            registro.TipoModificacion = cuenta.Nombre + " agrego el archivo " + nombreArchivo + " al proyecto " + nombreProyecto;
             _baseDatos.Registro.Add(registro);
             _baseDatos.SaveChanges();
         }
@@ -134,6 +137,30 @@ namespace proyectoTWA.Controllers
             }
 
             
+        }
+
+        public IActionResult ListaArchivo(string nombreProyecto)
+        {
+            var cuenta = _baseDatos.Archivo.Where(u => u.NombreProyecto == nombreProyecto).ToList();
+            //if (cuenta == null)
+            //{
+            //    ViewBag.Message = "Error";
+            //    return View(archivo);
+            //}
+            //else
+            //{
+            //    if (archivo.Estado != null)
+            //    {
+            //        //Para modificar
+            //        cuenta.Estado = archivo.Estado;
+            //        //_baseDatos.Update(cuenta);
+            //        _baseDatos.SaveChanges();
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    return RedirectToAction("Index", "Home");
+            //}
+
+            return View(cuenta);
         }
     }
 }
