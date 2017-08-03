@@ -1,4 +1,5 @@
-﻿@model IEnumerable<proyectoTWA.Models.Archivo>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<proyectoTWA.Models.Archivo>
 @{
     ViewData["Title"] = "Archivos";
 }
@@ -22,11 +23,16 @@
                 </tr>
                 @foreach (var archivo in Model)
                 {
-                    <tr>
-                        <td>@archivo.NombreArchivo</td>
-                        <td>@archivo.Estado</td>
-                        <td>@Html.ActionLink("Modificar", "UpdateFile", new { nombre = archivo.NombreArchivo })</td>
-                    </tr>
+                    @if (archivo.Estado == "publico" || archivo.Estado == "privado" && archivo.Rut == Context.Session.GetString("UserID"))
+                    {
+                        <tr>
+                            <td>@archivo.NombreArchivo</td>
+                            <td>@archivo.Estado</td>
+                            <td>@Html.ActionLink("Modificar", "UpdateFile", new { nombre = archivo.NombreArchivo })</td>
+                        </tr>
+
+                    }
+
 
                 }
             </table>

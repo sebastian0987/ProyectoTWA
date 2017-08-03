@@ -45,7 +45,12 @@
 
             <p>No existen proyectos</p>
         }
-			@Html.ActionLink("Crear nuevo proyecto", "NuevoProyecto")
+            @if (Context.Session.GetString("Administrador") == "s")
+            {
+                @Html.ActionLink("Crear nuevo proyecto", "NuevoProyecto")
+
+            }
+			
     </div>
     }
     else

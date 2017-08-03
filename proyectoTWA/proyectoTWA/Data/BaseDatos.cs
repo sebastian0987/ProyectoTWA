@@ -13,5 +13,13 @@ namespace proyectoTWA.Models
         public DbSet<Registro> Registro { get; set; }
         public DbSet<Proyecto> Proyecto { get; set; }
         public DbSet<PersonaProyecto> PersonaProyecto { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PersonaProyecto>().HasKey(u => new
+            {
+                u.Rut,
+                u.NombreProyecto
+            });
+        }
     }
 }
