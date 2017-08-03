@@ -1,29 +1,38 @@
 ﻿@model proyectoTWA.Models.Persona
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Bienvenido";
 }
 
-<h2>Login</h2>
-
-<form class="form-horizontal" asp-controller="Home" asp-action="Login" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Rut" class="col-md-2 control-label">RUT</label>
-        <div class="col-md-10">
-            <input asp-for="Rut" class="form-control" />
-            <span asp-validation-for="Rut" class="text-danger"></span>
+<div class="container">
+    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Bienvenido</div>
+            </div>
+            <div style="padding-top:30px" class="panel-body">
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                <form class="form-horizontal" asp-controller="Home" asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input asp-for="Rut" class="form-control" placeholder="RUT" maxlength="9"/>
+                            <span asp-validation-for="Rut" class="text-danger"></span>
+                        </div>                   
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>                            
+                             <input asp-for="Password" class="form-control" placeholder="Contraseña" maxlength="50"/>
+                             <span asp-validation-for="Password" class="text-danger"></span>                      
+                        </div>
+                    <div style="margin-top:10px" class="form-group">
+                        <!-- Button -->
+                        <div class="col-sm-12 controls">
+                            <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+                        </div>
+                    </div>  
+                    
+                </form>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label">Contraseña</label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Ingresar</button>
-        </div>
-    </div>
-</form>
+</div>

@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<proyectoTWA.Models.Proyecto>
+@{
+    ViewData["Title"] = "Mis proyectos/Feed";
+}
+
+<div class="row">
+
+    @*Si hay un usuario logueado*@
+    @if (Context.Session.GetString("UserID") != null)
+    {
+        <div class="col-md-6">
+        <h2>Mis proyectos</h2>
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-control">
+                <div class="col-md-10">@ViewBag.Message</div>
+            </div>
+        }
+        @if (Model.Any())
+        {
+            <table class="table">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de término</th>
+                </tr>
+                @foreach (var proyecto in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(@proyecto.NombreProyecto, "ModificarProyecto", new { nombre = proyecto.NombreProyecto})</td>
+                        <td>@proyecto.FechaInicio</td>
+                        <td>@proyecto.FechaTermino</td>
+
+                    </tr>
+
+                }
+                
+            </table>
+
+			
+		}
+		else
+		{
+
+            <p>No existen proyectos</p>
+        }
+            @if (Context.Session.GetString("Administrador") == "s")
+            {
+                @Html.ActionLink("Crear nuevo proyecto", "NuevoProyecto")
+
+            }
+			
+    </div>
+    }
+    else
+    {
+        <div class="col-md-6"></div>
+    }
+
+    <div class="col-md-6">
+        <h2>Feed</h2>
+        @if (ViewBag.Feed != null)
+        {
+            @foreach (var archivo in ViewBag.Feed)
+            {
+                <p>@archivo</p>
+            }
+
+        }
+        else
+        {
+            <p>No existe ningun archivo en tus proyectos</p>
+
+        }
+
+    </div>
+</div>
+

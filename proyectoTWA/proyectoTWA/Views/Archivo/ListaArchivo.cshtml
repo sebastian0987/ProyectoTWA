@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<proyectoTWA.Models.Archivo>
+@{
+    ViewData["Title"] = "Archivos";
+}
+
+<h2>Lista de Archivos</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-control">
+                <div class="col-md-10">@ViewBag.Message</div>
+            </div>
+        }
+        @if (Model.Any())
+        {
+            <table class="table">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                </tr>
+                @foreach (var archivo in Model)
+                {
+                    @if (archivo.Estado == "publico" || archivo.Estado == "privado" && archivo.Rut == Context.Session.GetString("UserID"))
+                    {
+                        <tr>
+                            <td>@archivo.NombreArchivo</td>
+                            <td>@archivo.Estado</td>
+                            <td>@Html.ActionLink("Modificar", "UpdateFile", new { nombre = archivo.NombreArchivo })</td>
+                        </tr>
+
+                    }
+
+
+                }
+            </table>
+
+        }
+        else
+        {
+            <p>No existe ningun archivo en este proyecto</p>
+
+        }
+        @Html.ActionLink("Agregar Nuevo Archivo", "AddFiles")
+    </div>
+</div>

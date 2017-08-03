@@ -13,8 +13,8 @@ namespace proyectoTWA.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string NombreArchivo { get; set; }
-        public string NombreProyecto { get; set; }
-        public string Rut { get; set; }
+        //public string NombreProyecto { get; set; }
+        //public string Rut { get; set; }
         public string TipoModificacion { get; set; }
     }
 }

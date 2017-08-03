@@ -1,0 +1,132 @@
+﻿@model proyectoTWA.ViewModels.ModificarProyectoViewModel
+
+@{
+	ViewData["Title"] = "Modificar Proyecto";
+}
+
+@*<script type="text/javascript">
+
+		$(function () {
+			var asd = document.getElementById("NuevoColaborador").value.toString();
+			$("#NuevoColaborador").on("change", function() {
+				var asd = $("#NuevoColaborador").val($(this).text());
+				alert("asd");
+			});
+			alert(asd);
+		});
+	</script>*@
+
+<h2>@ViewBag.Proyecto.NombreProyecto</h2>
+
+@*@foreach(var item in (List<proyectoTWA.Models.PersonaProyecto>)ViewBag.PersonasProyecto)
+	{
+		@item.ResponsableLegalS_N
+	}*@
+
+
+<div class="form-horizontal">
+	@if (ViewBag.Message != null)
+	{
+		<div class="form-control">
+			<div class="col-md-10">@ViewBag.Message</div>
+		</div>
+	}
+	<form asp-action="ModificarProyecto" asp-controller="Proyecto" method="post">
+
+		<div class="form-group">
+			<label asp-for="@Model.Proyecto.NombreProyecto" class="col-md-2 control-label">Nombre</label>
+			<div class="col-md-10">
+				<input asp-for="@Model.Proyecto.NombreProyecto" class="form-control" value=@ViewBag.Proyecto.NombreProyecto readonly />
+				<span asp-validation-for="@Model.Proyecto.NombreProyecto" class="text-danger"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="@Model.Proyecto.FechaInicio" class="col-md-2 control-label">Fecha de inicio</label>
+			<div class="col-md-10">
+				<input type="date" asp-for="@Model.Proyecto.FechaInicio" class="form-control" value=@Model.Proyecto.FechaInicio />
+				<span asp-validation-for="@Model.Proyecto.FechaInicio" class="text-danger"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="@Model.Proyecto.FechaTermino" class="col-md-2 control-label">Fecha de término</label>
+			<div class="col-md-10">
+				<input type="date" asp-for="@Model.Proyecto.FechaTermino" class="form-control" value=@Model.Proyecto.FechaTermino />
+				<span asp-validation-for="@Model.Proyecto.FechaTermino" class="text-danger"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label">Colaboradores</label>
+			<div class="col-md-10">
+				<table>
+					<tr>
+						<th>Rut</th>
+						<th>¿Director?</th>
+						<th>¿Responsable Legal?</th>
+
+					</tr>
+					@foreach (var persona in Model.PersonaProyectos)
+					{
+						<tr>
+							<td> @persona.Rut</td>
+							<td> @persona.DirectorS_N</td>
+							<td> @persona.ResponsableLegalS_N</td>
+
+						</tr>
+					}
+				</table>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label">Agregar personas al proyecto</label>
+			<div class="col-md-10">
+				<table>
+					<tr>
+						<th>Nombre</th>
+						<th>¿Director?</th>
+						<th>¿Responsable Legal?</th>
+
+					</tr>
+					@foreach (var persona in (List<proyectoTWA.Models.Persona>)ViewBag.PersonasAjenasAlProyecto)
+					{
+						<tr>
+							<td> @persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</td>
+							<td>
+								<div class="checkbox">
+									<label><input type="checkbox" id="CheckboxDirector" value=""></label>
+								</div>
+							</td>
+							<td>
+								@Html.CheckBox("", true)
+							</td>
+							<td> @Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { nombre = persona.Rut })</td>
+
+						</tr>
+					}
+				</table>
+			</div>
+			@*<div class="col-md-10">
+					<select id ="NuevoColaborador" class="form-control">
+						@foreach (var persona in (List<proyectoTWA.Models.Persona>)ViewBag.PersonasAjenasAlProyecto)
+						{
+							<option>@persona.Nombre @persona.ApellidoPaterno @persona.ApellidoMaterno</option>
+						}
+					</select>
+				</div>*@
+
+
+			@*@Html.ActionLink("Agregar", "AgregarPersonaAlProyecto", new { nombre = persona.Rut})*@
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button type="submit" class="btn btn-default">Modificar</button>
+				<button asp-action="Eliminar" class="btn btn-default">Eliminar</button>
+			</div>
+		</div>
+
+	</form>
+</div>

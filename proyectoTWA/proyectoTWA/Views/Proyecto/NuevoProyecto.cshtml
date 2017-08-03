@@ -1,0 +1,49 @@
+﻿@model proyectoTWA.Models.Proyecto
+@{
+    ViewData["Title"] = "Nuevo Proyecto";
+}
+
+<h2>Nuevo Proyecto</h2>
+<br />
+
+<div class="form-horizontal">
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-control">
+            <div class="col-md-10">@ViewBag.Message</div>
+        </div>
+    }
+    <form asp-action="NuevoProyecto" asp-controller="Proyecto" method="post">
+
+        <div class="form-group">
+            <label asp-for="NombreProyecto" class="col-md-2 control-label">Nombre</label>
+            <div class="col-md-10">
+                <input asp-for="NombreProyecto" class="form-control" maxlength="20"/>
+                <span asp-validation-for="NombreProyecto" class="text-danger"></span>
+            </div>
+        </div>
+
+		<div class="form-group">
+			<label asp-for="FechaInicio" class="col-md-2 control-label">Fecha de inicio</label>
+			<div class="col-md-10">
+				<input type="date" asp-for="FechaInicio" class="form-control" />
+				<span asp-validation-for="FechaInicio" class="text-danger"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="FechaTermino" class="col-md-2 control-label">Fecha de término</label>
+			<div class="col-md-10">
+				<input type="date" asp-for="FechaTermino" class="form-control" />
+				<span asp-validation-for="FechaTermino" class="text-danger"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button type="submit" class="btn btn-default">Crear</button>
+			</div>
+		</div>
+
+    </form>
+</div>

@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace proyectoTWA.Models
 {
@@ -15,5 +11,15 @@ namespace proyectoTWA.Models
         public DbSet<Persona> Persona { get; set; }
         public DbSet<Archivo> Archivo { get; set; }
         public DbSet<Registro> Registro { get; set; }
+        public DbSet<Proyecto> Proyecto { get; set; }
+        public DbSet<PersonaProyecto> PersonaProyecto { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PersonaProyecto>().HasKey(u => new
+            {
+                u.Rut,
+                u.NombreProyecto
+            });
+        }
     }
 }

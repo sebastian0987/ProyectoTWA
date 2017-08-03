@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using proyectoTWA.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Net.Http.Headers;
-using System.IO;
+using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -22,7 +17,7 @@ namespace proyectoTWA.Controllers
         }
         public IActionResult Index()
         {
-            return View(_baseDatos.Archivo.ToList());
+            return View();
         }
 
         public IActionResult Archivo(string nombre)
@@ -62,6 +57,11 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Registrar(Persona persona)
         {
+            if (!ValidarRut(persona.Rut))
+            {
+                ViewBag.Message = "El RUT ingresado no es valido";
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
@@ -101,31 +101,72 @@ namespace proyectoTWA.Controllers
         [HttpPost]
         public ActionResult Login(Persona persona)
         {
-            var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
-            if (cuenta == null)
+            if (ValidarRut(persona.Rut))
             {
-                ModelState.AddModelError("", "Rut o contraseña incorrecta");
-            }
-            else
-            {
-                if (cuenta.Password == GetHash(persona.Password))
+                var cuenta = _baseDatos.Persona.Where(u => u.Rut == persona.Rut).FirstOrDefault();
+                if (cuenta != null)
                 {
-                    HttpContext.Session.SetString("UserID", cuenta.Rut.ToString());
-                    return RedirectToAction("Index");
+                    if (cuenta.Password == GetHash(persona.Password))
+                    {
+                        HttpContext.Session.SetString("UserID", cuenta.Rut.ToString());
+                        HttpContext.Session.SetString("Administrador", cuenta.Administrador.ToString());
+                        return RedirectToAction("Feed", "Proyecto");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Rut y/o contraseña incorrecto");
+                        return View();
+                    }
+                        
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Rut o contraseña incorrecta");
+                    ModelState.AddModelError("", "Rut incorrecto");
+                    return View();
                 }
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError("", "RUT ingresado no valido");
+                return View();
+            }
+        }
+
+        private bool ValidarRut(string rut)
+        {
+
+            bool validacion = false;
+            try
+            {
+                rut = rut.ToUpper();
+                rut = rut.Replace(".", "");
+                rut = rut.Replace("-", "");
+                int rutAux = int.Parse(rut.Substring(0, rut.Length - 1));
+
+                char dv = char.Parse(rut.Substring(rut.Length - 1, 1));
+
+                int m = 0, s = 1;
+                for (; rutAux != 0; rutAux /= 10)
+                {
+                    s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+                }
+                if (dv == (char)(s != 0 ? s + 47 : 75))
+                {
+                    validacion = true;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return validacion;
         }
 
         public ActionResult Salir()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
-       
+
+
     }
 }
