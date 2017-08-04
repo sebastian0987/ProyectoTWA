@@ -68,15 +68,15 @@
         <div class="form-group">
             <label asp-for="Password" class="col-md-2 control-label">Contraseña</label>
             <div class="col-md-10">
-                <input asp-for="Password" class="form-control" maxlength="50"/>
+                <input asp-for="Password" class="form-control" maxlength="50" id="password"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ConfirmarPassword" class="col-md-2 control-label">Confirmar Contraseña</label>
+            <label class="col-md-2 control-label">Confirmar Contraseña</label>
             <div class="col-md-10">
-                <input asp-for="ConfirmarPassword" class="form-control" maxlength="50"/>
-                <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+                <input class="form-control" maxlength="50" id="confirm_password"/>
+                
             </div>
         </div>
         <div class="form-group">
@@ -86,3 +86,19 @@
         </div>
     </form>
 </div>
+
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("La contraseña no coincide");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>

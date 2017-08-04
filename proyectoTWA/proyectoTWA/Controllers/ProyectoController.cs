@@ -199,8 +199,8 @@ namespace proyectoTWA.Controllers
                 listaProyectos.Add(proyecto);
 
             }
-            //return View(listaProyectos);
-            return View(_baseDatos.Proyecto.ToList());
+            return View(listaProyectos);
+            //return View(_baseDatos.Proyecto.ToList());
         }
 
 

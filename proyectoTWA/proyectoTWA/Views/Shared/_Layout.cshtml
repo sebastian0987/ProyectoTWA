@@ -34,15 +34,15 @@
                 <ul class="nav navbar-nav">
 
  
-                    <li><a asp-area="" asp-controller="Home" asp-action="Registrar">Registrar Usuario</a></li>
+                    
                     @if (Context.Session.GetString("UserID") != null)
                     {
                         <li><a asp-area="" asp-controller="Proyecto" asp-action="Feed" class="navbar-brand">proyectoTWA</a></li>
                         <li><a asp-area="" asp-controller="Proyecto" asp-action="Feed">Feed</a></li>      
                         @if (Context.Session.GetString("Administrador") == "s")
                         {
-                            
-
+                            @*para crear al primer usuario debe sacar esta liena de codigo del if*@
+                            <li><a asp-area="" asp-controller="Home" asp-action="Registrar">Registrar Usuario</a></li>
                         }
                     }
                     else
